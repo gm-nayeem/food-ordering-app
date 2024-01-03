@@ -1,19 +1,19 @@
-import { NextResponse } from "next/server";
 import { isAdmin } from "@/app/api/auth/[...nextauth]";
-import { MenuItem } from "@/models/MenuItem";
+import { NextResponse } from "next/server";
+import { Category } from "@/models/Category";
 import { connectToDB } from "@/config/databaseConnect";
 
 export const POST = async (req) => {
     try {
         await connectToDB();
 
-        const data = await req.json();
+        const { name } = await req.json();
 
         const admin = await isAdmin();
         if (!admin) throw new Error('Unauthorized access!');
 
-        const newMenuItem = await MenuItem.create(data);
-        return NextResponse.json(newMenuItem);
+        const categoryDoc = await Category.create({ name });
+        return NextResponse.json(categoryDoc);
     } catch (err) {
         throw new Error(err);
     }
@@ -23,12 +23,12 @@ export const PUT = async (req) => {
     try {
         await connectToDB();
 
-        const { _id, ...data } = await req.json();
+        const { _id, name } = await req.json();
 
         const admin = await isAdmin();
         if (!admin) throw new Error('Unauthorized access!');
 
-        await MenuItem.findByIdAndUpdate(_id, data);
+        await Category.updateOne({ _id }, { name });
         return NextResponse.json(true);
     } catch (err) {
         throw new Error(err);
@@ -39,8 +39,8 @@ export const GET = async () => {
     try {
         await connectToDB();
 
-        const MenuItems = await MenuItem.find();
-        return NextResponse.json(MenuItems);
+        const categories = await Category.find();
+        return NextResponse.json(categories);
     } catch (err) {
         throw new Error(err);
     }
@@ -56,8 +56,8 @@ export const DELETE = async (req) => {
         const admin = await isAdmin();
         if (!admin) throw new Error('Unauthorized access!');
 
-        await MenuItem.deleteOne({ _id });
-        return Response.json(true);
+        await Category.deleteOne({ _id });
+        return NextResponse.json(true);
     } catch (err) {
         throw new Error(err);
     }

@@ -3,7 +3,8 @@ import { Schema, model, models } from 'mongoose';
 const UserSchema = new Schema({
     username: {
         type: String,
-        required: [true, 'Username is required!'],
+        // required: [true, 'Username is required!'],
+        default: 'testuser'
     },
     email: {
         type: String,
@@ -15,6 +16,7 @@ const UserSchema = new Schema({
     },
     image: {
         type: String,
+        default: ''
     }
 }, { timestamps: true });
 
