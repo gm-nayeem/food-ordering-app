@@ -1,6 +1,6 @@
 import { model, models, Schema } from "mongoose";
 
-// const productSchema = new mongoose.Schema({
+// const productSchema = new Schema({
 //     name: String,
 //     price: Number,
 // });

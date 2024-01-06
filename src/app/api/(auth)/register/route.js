@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
-
 import { connectToDB } from "@/config/databaseConnect";
-import { User } from "@/models";
+import { User } from '@/models';
 
 export const POST = async (req) => {
     try {
@@ -15,8 +14,7 @@ export const POST = async (req) => {
             throw new Error('password must be at least 5 characters');
         }
 
-        const salt = bcrypt.genSaltSync(10);
-        body.password = bcrypt.hashSync(pass, salt);
+        body.password = await bcrypt.hash(pass, 10);
 
         const createdUser = await User.create(body);
         return NextResponse.json(createdUser);

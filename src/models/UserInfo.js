@@ -7,7 +7,6 @@ const UserInfoSchema = new Schema({
     city: { type: String },
     country: { type: String },
     phone: { type: String },
-    isAdmin: { type: Boolean, default: false },
 }, { timestamps: true });
 
 const UserInfo = models?.UserInfo || model('UserInfo', UserInfoSchema);

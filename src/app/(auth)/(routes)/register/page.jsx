@@ -1,28 +1,15 @@
 "use client";
 
-import { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
-import { signIn } from "next-auth/react";
+import { useState } from "react";
+import UserForm from "../../_components/UserForm";
 
 const RegisterPage = () => {
-    const [user, setUser] = useState({ email: '', password: '' });
     const [creatingUser, setCreatingUser] = useState(false);
     const [userCreated, setUserCreated] = useState(false);
     const [error, setError] = useState(false);
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-
-        setUser(prev => (
-            {
-                ...prev,
-                [name]: value
-            }
-        ));
-    }
-
-    const handleFormSubmit = async (e) => {
+    const handleSubmit = async (e, user) => {
         e.preventDefault();
 
         setCreatingUser(true);
@@ -39,8 +26,6 @@ const RegisterPage = () => {
 
         setUserCreated(true);
         setCreatingUser(false);
-
-        setUser({ email: '', password: '' });
     }
 
     return (
@@ -61,30 +46,12 @@ const RegisterPage = () => {
                     Please try again later
                 </div>
             )}
-            <form className="block max-w-xs mx-auto" onSubmit={handleFormSubmit}>
-                <input type="email" name="email" placeholder="email" value={user.email}
-                    disabled={creatingUser}
-                    onChange={handleChange} />
-                <input type="password" name="password" placeholder="password" value={user.password}
-                    disabled={creatingUser}
-                    onChange={handleChange} />
-                <button type="submit" disabled={creatingUser}>
-                    Register
-                </button>
-                <div className="my-4 text-center text-gray-500">
-                    or login with provider
-                </div>
-                <button
-                    onClick={() => signIn('google', { callbackUrl: '/' })}
-                    className="flex gap-4 justify-center">
-                    <Image src={'/google.png'} alt={''} width={24} height={24} />
-                    Login with google
-                </button>
-                <div className="text-center my-4 text-gray-500 border-t pt-4">
-                    Existing account?{' '}
-                    <Link className="underline" href={'/login'}>Login here &raquo;</Link>
-                </div>
-            </form>
+            <UserForm
+                name='Register'
+                text='Already have an account?'
+                authProcessing={creatingUser}
+                handleSubmit={handleSubmit}
+            />
         </section>
     );
 }

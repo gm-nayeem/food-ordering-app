@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { isAdmin } from "@/app/api/auth/[...nextauth]";
+import { isAdmin } from "../../(auth)/auth/[...nextauth]/route";
 import { connectToDB } from "@/config/databaseConnect";
 import { User } from "@/models/User";
 

@@ -1,4 +1,4 @@
-import { isAdmin } from "@/app/api/auth/[...nextauth]";
+import { isAdmin } from "../../(auth)/auth/[...nextauth]/route";
 import { NextResponse } from "next/server";
 import { Category } from "@/models/Category";
 import { connectToDB } from "@/config/databaseConnect";

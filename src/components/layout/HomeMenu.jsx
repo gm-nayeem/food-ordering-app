@@ -10,12 +10,18 @@ const HomeMenu = () => {
     const [bestSellers, setBestSellers] = useState([]);
 
     useEffect(() => {
-        fetch('/api/menu-items')
-            .then(res => res.json())
-            .then(menuItems => {
-                setBestSellers(menuItems.slice(-3));
-            })
-            .catch(err => console.log(err));
+        const getMenuItems = async () => {
+            try {
+                const res = await fetch('/api/menu-items');
+                const data = await res.json();
+                console.log('data: ', data);
+
+                data?.length > 0 && setBestSellers(data.slice(-3));
+            } catch (err) {
+                console.log(err);
+            }
+        }
+        getMenuItems();
     }, []);
 
     return (
@@ -33,11 +39,15 @@ const HomeMenu = () => {
                     subHeader={'check out'}
                     mainHeader={'Our Best Sellers'} />
             </div>
-            <div className="grid sm:grid-cols-3 gap-4">
-                {bestSellers?.length > 0 && bestSellers.map(item => (
-                    <MenuItem key={item._id} {...item} />
-                ))}
-            </div>
+            {/* <div className="grid sm:grid-cols-3 gap-4">
+                {
+                    bestSellers?.length > 0 ? (
+                        bestSellers.map(item => (
+                            <MenuItem key={item._id} {...item} />
+                        ))
+                    ) : null
+                }
+            </div> */}
         </section>
     );
 }

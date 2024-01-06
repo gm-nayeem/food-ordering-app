@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { isAdmin } from "@/app/api/auth/[...nextauth]";
-import { MenuItem } from "@/models/MenuItem";
+import { isAdmin } from "../../(auth)/auth/[...nextauth]/route";
+import { MenuItem } from "@/models";
 import { connectToDB } from "@/config/databaseConnect";
 
 export const POST = async (req) => {
@@ -39,8 +39,8 @@ export const GET = async () => {
     try {
         await connectToDB();
 
-        const MenuItems = await MenuItem.find();
-        return NextResponse.json(MenuItems);
+        const menuItems = await MenuItem.find();
+        return NextResponse.json(menuItems);
     } catch (err) {
         throw new Error(err);
     }
