@@ -7,8 +7,8 @@ if (!URL) {
 
 const options = {
     dbName: "food-ordering-app",
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+    // useNewUrlParser: true,
+    // useUnifiedTopology: true,
 }
 
 let isConnected = false; // track the connection

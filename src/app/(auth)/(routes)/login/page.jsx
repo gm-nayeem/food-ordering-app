@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { signIn } from "next-auth/react";
-import UserForm from "../../_components/UserForm";
+import AuthForm from "../../_components/AuthForm";
 
 const LoginPage = () => {
     const [loginInProgress, setLoginInProgress] = useState(false);
@@ -26,7 +26,7 @@ const LoginPage = () => {
             <h1 className="text-center text-primary text-4xl mb-4">
                 Login
             </h1>
-            <UserForm
+            <AuthForm
                 name='Login'
                 text='Don&rsquo;t have an account?'
                 authProcessing={loginInProgress}

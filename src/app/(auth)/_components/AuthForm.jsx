@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 
-const UserForm = ({ name, text, authProcessing, handleSubmit }) => {
+const AuthForm = ({ name, text, authProcessing, handleSubmit }) => {
     const [user, setUser] = useState({ email: '', password: '' });
 
     const handleChange = (e) => {
@@ -64,4 +64,4 @@ const UserForm = ({ name, text, authProcessing, handleSubmit }) => {
     )
 }
 
-export default UserForm;
+export default AuthForm;

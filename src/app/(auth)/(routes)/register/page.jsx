@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import UserForm from "../../_components/UserForm";
+import AuthForm from "../../_components/AuthForm";
 
 const RegisterPage = () => {
     const [creatingUser, setCreatingUser] = useState(false);
@@ -46,7 +46,7 @@ const RegisterPage = () => {
                     Please try again later
                 </div>
             )}
-            <UserForm
+            <AuthForm
                 name='Register'
                 text='Already have an account?'
                 authProcessing={creatingUser}

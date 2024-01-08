@@ -1,4 +1,6 @@
-import AuthMiddleware from "@/middleware";
+'use client'
+
+import AuthMiddleware from "@/middleware/AuthMiddleware";
 
 export default function AuthLayout({ children }) {
 

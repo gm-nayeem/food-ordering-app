@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "../../(auth)/auth/[...nextauth]/route";
 import { connectToDB } from "@/config/databaseConnect";
-import { User } from "@/models/User";
+import User from "@/models/User";
 
 export const GET = async () => {
     try {
