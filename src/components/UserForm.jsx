@@ -5,18 +5,18 @@ import AddressInputs from "./AddressInputs";
 import EditableImage from "./EditableImage";
 
 const UserForm = ({ user, onSave }) => {
-    // const {
-    //     username, isAdmin, phone,
-    //     country, city, streetAddress, postalCode
-    // } = user;
+    const {
+        username, email, isAdmin, phone,
+        country, city, streetAddress, postalCode
+    } = user;
 
     const [userInfo, setUserInfo] = useState({
-        username: user?.username || '',
-        phone: user?.phone || '',
-        country: user?.country || '',
-        city: user?.city || '',
-        streetAddress: user?.streetAddress || '',
-        postalCode: user?.postalCode || '',
+        username: username || '',
+        phone: phone || '',
+        country: country || '',
+        city: city || '',
+        streetAddress: streetAddress || '',
+        postalCode: postalCode || '',
     });
     const [image, setImage] = useState(user?.image || '');
 
@@ -49,7 +49,7 @@ const UserForm = ({ user, onSave }) => {
                     type="text"
                     name="username"
                     placeholder="full name"
-                    value={userInfo.username}
+                    value={userInfo?.username}
                     onChange={handleChange}
                 />
                 <label>Email</label>
@@ -57,20 +57,20 @@ const UserForm = ({ user, onSave }) => {
                     type="email"
                     name="email"
                     placeholder='email address'
-                    value={user?.email}
+                    value={email}
                     disabled={true}
                 />
                 <AddressInputs
                     userInfo={userInfo}
                     handleChange={handleChange}
                 />
-                {user?.isAdmin && (
+                {isAdmin && (
                     <div>
                         <label className="p-2 inline-flex items-center gap-2 mb-2">
                             <input
                                 type="checkbox"
                                 value={'1'}
-                                checked={user?.isAdmin}
+                                checked={isAdmin}
                                 readOnly
                             />
                             <span>Admin</span>

@@ -28,7 +28,7 @@ export const PUT = async (req) => {
         const admin = await isAdmin();
         if (!admin) throw new Error('Unauthorized access!');
 
-        await MenuItem.findByIdAndUpdate(_id, data);
+        await MenuItem.findByIdAndUpdate(_id, data, { new: true });
         return NextResponse.json(true);
     } catch (err) {
         throw new Error(err);

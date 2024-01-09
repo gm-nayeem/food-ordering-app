@@ -1,46 +1,36 @@
 'use client';
 
-import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
-// import toast from "react-hot-toast";
-
+import toast from "react-hot-toast";
 import UserForm from "@/components/UserForm";
 import UserTabs from "@/components/UserTabs";
+import { useProfile } from "@/hooks/useProfile";
 
 
 const ProfilePage = () => {
-    const session = useSession();
-    const { status } = session;
+    const { loading, data } = useProfile();
 
-    const [user, setUser] = useState(null);
-    const [profileFetched, setProfileFetched] = useState(false);
-
-    useEffect(() => {
-        const fetchProfile = async () => {
-            const res = await fetch('/api/profile');
-            const data = await res.json();
-
-            if (data) {
-                setUser(data);
-                setProfileFetched(true);
-            }
-        }
-
-        fetchProfile();
-    }, []);
-
-    const handleProfileInfoUpdate = async (e, data) => {
+    const handleProfileInfoUpdate = async (e, userInfo) => {
         e.preventDefault();
 
-        const response = await fetch('/api/profile', {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data),
+        const promise = new Promise(async (resolve, reject) => {
+            const response = await fetch('/api/profile', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(userInfo),
+            });
+
+            if (!response.ok) reject();
+            resolve();
         });
-        if (!response.ok) throw new Error('Something went wrong!');
+
+        await toast.promise(promise, {
+            loading: 'Saving profile...',
+            success: 'Profile saved',
+            error: 'An error has occurred while saving the profile',
+        });
     }
 
-    if (status === 'loading' || !profileFetched) {
+    if (loading) {
         return <div className="text-center">Loading...</div>
     }
 
@@ -48,7 +38,7 @@ const ProfilePage = () => {
         <section className="mt-8">
             <UserTabs />
             <div className="max-w-2xl mx-auto mt-8">
-                <UserForm user={user} onSave={handleProfileInfoUpdate} />
+                <UserForm user={data} onSave={handleProfileInfoUpdate} />
             </div>
         </section>
     );

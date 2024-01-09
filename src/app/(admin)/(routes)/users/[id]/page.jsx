@@ -1,36 +1,22 @@
 'use client';
 
-import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-
 import UserForm from "@/components/UserForm";
 import UserTabs from "@/components/UserTabs";
-import { useProfile } from "@/hooks/useProfile";
+import { useUserById } from "@/hooks/useUserById";
 
-const EditUserPage = () => {
-    const { loading, data } = useProfile();
-    const [user, setUser] = useState(null);
-    const { id } = useParams();
+const EditUserPage = ({ params }) => {
+    const id = params.id;
+    const { loading, data } = useUserById(id);
 
-    useEffect(() => {
-        const fetchUserById = async () => {
-            const res = await fetch(`/api/profile?_id=${id}`);
-            const data = await res.json();
-
-            data && setUser(user);
-        }
-        fetchUserById();
-    }, []);
-
-    const handleSaveButtonClick = async (e, data) => {
+    const handleSaveButtonClick = async (e, userInfo) => {
         e.preventDefault();
 
         const promise = new Promise(async (resolve, reject) => {
-            const res = await fetch('/api/profile', {
+            const res = await fetch(`/api/users/${id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ ...data, _id: id }),
+                body: JSON.stringify(userInfo),
             });
 
             if (!res.ok) reject();
@@ -52,7 +38,7 @@ const EditUserPage = () => {
         <section className="mt-8 mx-auto max-w-2xl">
             <UserTabs />
             <div className="mt-8">
-                <UserForm user={user} onSave={handleSaveButtonClick} />
+                <UserForm user={data} onSave={handleSaveButtonClick} />
             </div>
         </section>
     );

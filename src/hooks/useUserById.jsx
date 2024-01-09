@@ -2,20 +2,20 @@
 
 import { useEffect, useState } from "react";
 
-export const useUsers = () => {
+export const useUserById = (id) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const fetchUsers = async () => {
-        const res = await fetch('/api/users');
-        const users = await res.json();
+    const fetchUser = async () => {
+        const res = await fetch(`/api/users/${id}`);
+        const user = await res.json();
 
-        if (users.length > 0) setData(users);
+        if (user) setData(user);
         setLoading(false);
     }
 
     useEffect(() => {
-        fetchUsers();
+        fetchUser();
     }, []);
 
     return { loading, data };

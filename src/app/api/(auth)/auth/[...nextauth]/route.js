@@ -71,19 +71,18 @@ export const authOptions = {
 
                 await connectToDB();
 
-                const email = profile.email;
+                const { name, email } = profile;
                 const userExists = await User.findOne({ email });
+                console.log('profile', profile);
 
                 if (!userExists) {
-                    const newUser = { email };
+                    const newUser = { username: name, email };
 
                     if (account.provider === "github") {
-                        newUser.username = profile.login;
                         newUser.image = profile.avatar_url;
                     }
 
                     if (account.provider === "google") {
-                        newUser.username = profile.name;
                         newUser.image = profile.picture;
                     }
 

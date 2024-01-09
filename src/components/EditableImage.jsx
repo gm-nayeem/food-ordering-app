@@ -1,6 +1,8 @@
 import Image from "next/image";
 import toast from "react-hot-toast";
 
+const DEFAULT_IMG = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png';
+
 const EditableImage = ({ link, setLink }) => {
 
     const handleFileChange = async (e) => {
@@ -33,16 +35,22 @@ const EditableImage = ({ link, setLink }) => {
         <>
             {
                 link ? (
-                    <Image className="rounded-lg w-full h-full mb-1" src={link} width={250} height={250} alt={'avatar'} />
+                    <Image
+                        src={link} width={250} height={250}
+                        alt={'avatar'}
+                        className="rounded-sm"
+                    />
                 ) : (
-                    <div className="text-center bg-gray-200 p-4 text-gray-500 rounded-lg mb-1">
-                        No image
-                    </div>
+                    <Image
+                        src={DEFAULT_IMG} width={250} height={250}
+                        alt={'default'}
+                        className="rounded-sm"
+                    />
                 )
             }
             <label>
                 <input type="file" className="hidden" onChange={handleFileChange} />
-                <span className="block border border-gray-300 rounded-lg p-2 text-center cursor-pointer">Change Profile</span>
+                <span className="block border border-gray-300 rounded-lg mt-2 p-2 text-center cursor-pointer">Change Profile</span>
             </label>
         </>
     );

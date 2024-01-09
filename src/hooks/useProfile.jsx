@@ -10,10 +10,8 @@ export const useProfile = () => {
         const res = await fetch('/api/profile');
         const data = await res.json();
 
-        if (data) {
-            setLoading(false);
-            setData(data);
-        }
+        if (data) setLoading(false);
+        setData(data);
     }
 
     useEffect(() => {

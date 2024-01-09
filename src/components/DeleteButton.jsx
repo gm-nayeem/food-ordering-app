@@ -15,12 +15,13 @@ const DeleteButton = ({ label, onDelete }) => {
                             Cancel
                         </button>
                         <button
+                            type="button"
+                            className="primary"
                             onClick={() => {
                                 onDelete();
                                 setShowConfirm(false);
                             }}
-                            type="button"
-                            className="primary">
+                        >
                             Yes,&nbsp;delete!
                         </button>
                     </div>
