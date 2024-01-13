@@ -14,9 +14,9 @@ const HomeMenu = () => {
             try {
                 const res = await fetch('/api/menu-items');
                 const data = await res.json();
-                console.log('data: ', data);
-
-                data?.length > 0 && setBestSellers(data.slice(-3));
+                if (data?.length > 0) {
+                    setBestSellers(data.slice(-3));
+                }
             } catch (err) {
                 console.log(err);
             }
@@ -39,15 +39,15 @@ const HomeMenu = () => {
                     subHeader={'check out'}
                     mainHeader={'Our Best Sellers'} />
             </div>
-            {/* <div className="grid sm:grid-cols-3 gap-4">
+            <div className="grid sm:grid-cols-3 gap-4">
                 {
                     bestSellers?.length > 0 ? (
                         bestSellers.map(item => (
-                            <MenuItem key={item._id} {...item} />
+                            <MenuItem key={item._id} item={item} />
                         ))
                     ) : null
                 }
-            </div> */}
+            </div>
         </section>
     );
 }

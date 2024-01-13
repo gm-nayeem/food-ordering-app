@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "cloudinary": "^1.41.2",
     "clsx": "^2.1.0",
     "mongodb": "^6.3.0",
     "mongoose": "^8.0.3",

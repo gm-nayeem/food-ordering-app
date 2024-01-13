@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import UserForm from "@/components/UserForm";
 import UserTabs from "@/components/UserTabs";
 import { useProfile } from "@/hooks/useProfile";
+import LoadingSkeleton from "@/components/LoadingSkeleton";
 
 
 const ProfilePage = () => {
@@ -30,9 +31,7 @@ const ProfilePage = () => {
         });
     }
 
-    if (loading) {
-        return <div className="text-center">Loading...</div>
-    }
+    if (loading) return <LoadingSkeleton />
 
     return (
         <section className="mt-8">

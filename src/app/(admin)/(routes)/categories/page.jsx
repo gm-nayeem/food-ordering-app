@@ -2,14 +2,12 @@
 
 import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
-
 import UserTabs from "@/components/UserTabs";
-// import { useCategories } from "@/hooks/useCategories";
 import CategoriesComponents from "../../_components/CategoriesComponents";
 import CategoryForm from "../../_components/CategoryForm";
+import LoadingSkeleton from "@/components/LoadingSkeleton";
 
 const CategoriesPage = () => {
-    // const { loading, data } = useCategories();
     const [categories, setCategories] = useState([]);
     const [categoryName, setCategoryName] = useState('');
     const [editedCategory, setEditedCategory] = useState(null);
@@ -89,9 +87,7 @@ const CategoriesPage = () => {
         });
     }
 
-    if (loading) {
-        return <div className="text-center">Loading...</div>
-    }
+    if (loading) return <LoadingSkeleton />
 
     return (
         <section className="mt-8 max-w-2xl mx-auto">

@@ -6,29 +6,30 @@ const DEFAULT_IMG = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profil
 const EditableImage = ({ link, setLink }) => {
 
     const handleFileChange = async (e) => {
-        const files = e.target.files;
+        const file = e.target.files[0];
+        if (!file) throw new Error('File not found!');
 
-        if (files?.length === 1) {
-            const data = new FormData;
-            data.set('file', files[0]);
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', 'food_ordering_app');
 
-            const uploadPromise = fetch('/api/upload', {
-                method: 'POST',
-                body: data,
-            }).then(res => {
-                if (!res.ok) throw new Error('Something went wrong');
+        const api = "https://api.cloudinary.com/v1_1/gmnayeem/image/upload";
 
-                return res.json().then(link => {
-                    setLink(link);
-                });
+        const uploadPromise = fetch(api, {
+            method: 'POST',
+            body: formData,
+        }).then(res => {
+            if (!res.ok) throw new Error('Something went wrong');
+            return res.json().then(data => {
+                setLink(data.secure_url);
             });
+        });
 
-            await toast.promise(uploadPromise, {
-                loading: 'Uploading...',
-                success: 'Upload complete',
-                error: 'Upload error',
-            });
-        }
+        await toast.promise(uploadPromise, {
+            loading: 'Uploading...',
+            success: 'Upload completed!',
+            error: 'Upload error',
+        });
     }
 
     return (

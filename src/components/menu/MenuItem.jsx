@@ -1,3 +1,5 @@
+'use client'
+
 import Image from "next/image";
 import { useContext, useState } from "react";
 import FlyingButton from "react-flying-item";
@@ -5,11 +7,13 @@ import FlyingButton from "react-flying-item";
 // import { CartContext } from "@/components/AppContext";
 import MenuItemTitle from "@/components/menu/MenuItemTitle";
 
-export default function MenuItem(menuItem) {
+const MenuItem = ({ menuItem }) => {
+    console.log('menuItem', menuItem)
     const {
         image, name, description, basePrice,
         sizes, extraIngredientPrices,
     } = menuItem;
+
     const [
         selectedSize, setSelectedSize
     ] = useState(sizes?.[0] || null);
@@ -126,7 +130,10 @@ export default function MenuItem(menuItem) {
             )}
             <MenuItemTitle
                 onAddToCart={handleAddToCartButtonClick}
-                {...menuItem} />
+                {...menuItem}
+            />
         </>
     );
 }
+
+export default MenuItem;

@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import UserForm from "@/components/UserForm";
 import UserTabs from "@/components/UserTabs";
 import { useUserById } from "@/hooks/useUserById";
+import LoadingSkeleton from "@/components/LoadingSkeleton";
 
 const EditUserPage = ({ params }) => {
     const id = params.id;
@@ -30,9 +31,7 @@ const EditUserPage = ({ params }) => {
         });
     }
 
-    if (loading) {
-        return <div className="text-center">Loading...</div>
-    }
+    if (loading) return <LoadingSkeleton />
 
     return (
         <section className="mt-8 mx-auto max-w-2xl">

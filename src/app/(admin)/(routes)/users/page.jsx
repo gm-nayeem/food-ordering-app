@@ -3,13 +3,12 @@
 import Link from "next/link";
 import UserTabs from "@/components/UserTabs";
 import { useUsers } from "@/hooks/useUsers";
+import LoadingSkeleton from "@/components/LoadingSkeleton";
 
 const UsersPage = () => {
     const { loading, data } = useUsers();
 
-    if (loading) {
-        return <div className="text-center">Loading...</div>
-    }
+    if (loading) return <LoadingSkeleton />
 
     return (
         <section className="max-w-2xl mx-auto mt-8">

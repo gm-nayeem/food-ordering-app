@@ -1,46 +1,19 @@
-// import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
-// import uniqid from 'uniqid';
-// import { NextResponse } from "next/server";
+import uniqid from 'uniqid';
+import { NextResponse } from "next/server";
+import { uploadFileToCloudinary } from '@/helper/fileUpload';
 
-// export const POST = async (req) => {
-//     try {
-//         const data = await req.formData();
+export const POST = async (req) => {
+    try {
+        const data = await req.formData();
 
-//         if (data.get('file')) {
-//             const file = data.get('file');
+        const file = data.get('file');
+        if (!file) throw new Error('File not found');
 
-//             const s3Client = new S3Client({
-//                 region: 'us-east-1',
-//                 credentials: {
-//                     accessKeyId: process.env.MY_AWS_ACCESS_KEY,
-//                     secretAccessKey: process.env.MY_AWS_SECRET_KEY,
-//                 },
-//             });
+        const newFileName = uniqid() + '-' + file.name;
+        const fileUrl = await uploadFileToCloudinary(newFileName);
 
-//             const ext = file.name.split('.').slice(-1)[0];
-//             const newFileName = uniqid() + '.' + ext;
-
-//             const chunks = [];
-//             for await (const chunk of file.stream()) {
-//                 chunks.push(chunk);
-//             }
-//             const buffer = Buffer.concat(chunks);
-
-//             const bucket = 'dawid-food-ordering';
-//             await s3Client.send(new PutObjectCommand({
-//                 Bucket: bucket,
-//                 Key: newFileName,
-//                 ACL: 'public-read',
-//                 ContentType: file.type,
-//                 Body: buffer,
-//             }));
-
-
-//             const link = 'https://' + bucket + '.s3.amazonaws.com/' + newFileName;
-//             return NextResponse.json(link);
-//         }
-//         return NextResponse.json(true);
-//     } catch (err) {
-//         throw new Error(err);
-//     }
-// }
+        return NextResponse.json({ fileUrl });
+    } catch (err) {
+        throw new Error(err);
+    }
+}
