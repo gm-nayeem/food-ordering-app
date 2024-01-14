@@ -30,6 +30,12 @@ export const AppProvider = ({ children }) => {
         }
     }, [ls]);
 
+    const saveCartProductsToLocalStorage = (cartProducts) => {
+        if (ls) {
+            ls.setItem('cart', JSON.stringify(cartProducts));
+        }
+    }
+
     const clearCart = () => {
         setCartProducts([]);
         saveCartProductsToLocalStorage([]);
@@ -43,12 +49,6 @@ export const AppProvider = ({ children }) => {
             return newCartProducts;
         });
         toast.success('Product removed');
-    }
-
-    const saveCartProductsToLocalStorage = (cartProducts) => {
-        if (ls) {
-            ls.setItem('cart', JSON.stringify(cartProducts));
-        }
     }
 
     const addToCart = (product, size = null, extras = []) => {

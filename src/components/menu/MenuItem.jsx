@@ -1,41 +1,50 @@
 'use client'
 
 import Image from "next/image";
+import { useSession } from "next-auth/react";
 import { useContext, useState } from "react";
 import FlyingButton from "react-flying-item";
+import toast from "react-hot-toast";
 
-// import { CartContext } from "@/components/AppContext";
+import { CartContext } from "@/context/AppContext";
 import MenuItemTitle from "@/components/menu/MenuItemTitle";
 
-const MenuItem = ({ menuItem }) => {
-    console.log('menuItem', menuItem)
+const MenuItem = ({ item }) => {
     const {
         image, name, description, basePrice,
         sizes, extraIngredientPrices,
-    } = menuItem;
+    } = item;
+
+    const { addToCart } = useContext(CartContext);
+    const session = useSession();
+    const status = session?.status;
 
     const [
         selectedSize, setSelectedSize
     ] = useState(sizes?.[0] || null);
     const [selectedExtras, setSelectedExtras] = useState([]);
     const [showPopup, setShowPopup] = useState(false);
-    // const { addToCart } = useContext(CartContext);
 
-    const handleAddToCartButtonClick = async () => {
-        console.log('add to cart');
+    const handleAddToCartButton = async () => {
+        if (status === 'unauthenticated') {
+            return toast.error('First logged into your account');
+        }
+
         const hasOptions = sizes.length > 0 || extraIngredientPrices.length > 0;
         if (hasOptions && !showPopup) {
             setShowPopup(true);
             return;
         }
-        // addToCart(menuItem, selectedSize, selectedExtras);
-        // await new Promise(resolve => setTimeout(resolve, 1000));
-        console.log('hiding popup');
+
+        addToCart(item, selectedSize, selectedExtras);
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
         setShowPopup(false);
     }
 
-    const handleExtraThingClick = (ev, extraThing) => {
-        const checked = ev.target.checked;
+    const handleExtraThingClick = (e, extraThing) => {
+        const checked = e.target.checked;
+
         if (checked) {
             setSelectedExtras(prev => [...prev, extraThing]);
         } else {
@@ -49,6 +58,7 @@ const MenuItem = ({ menuItem }) => {
     if (selectedSize) {
         selectedPrice += selectedSize.price;
     }
+
     if (selectedExtras?.length > 0) {
         for (const extra of selectedExtras) {
             selectedPrice += extra.price;
@@ -60,18 +70,22 @@ const MenuItem = ({ menuItem }) => {
             {showPopup && (
                 <div
                     onClick={() => setShowPopup(false)}
-                    className="fixed inset-0 bg-black/80 flex items-center justify-center">
+                    className="fixed inset-0 bg-black/80 flex items-center justify-center"
+                >
                     <div
-                        onClick={ev => ev.stopPropagation()}
-                        className="my-8 bg-white p-2 rounded-lg max-w-md">
+                        onClick={e => e.stopPropagation()}
+                        className="my-8 bg-white p-2 rounded-lg max-w-md"
+                    >
                         <div
                             className="overflow-y-scroll p-2"
-                            style={{ maxHeight: 'calc(100vh - 100px)' }}>
+                            style={{ maxHeight: 'calc(100vh - 100px)' }}
+                        >
                             <Image
                                 src={image}
                                 alt={name}
                                 width={300} height={200}
-                                className="mx-auto" />
+                                className="mx-auto"
+                            />
                             <h2 className="text-lg font-bold text-center mb-2">{name}</h2>
                             <p className="text-center text-gray-500 text-sm mb-2">
                                 {description}
@@ -87,7 +101,8 @@ const MenuItem = ({ menuItem }) => {
                                                 type="radio"
                                                 onChange={() => setSelectedSize(size)}
                                                 checked={selectedSize?.name === size.name}
-                                                name="size" />
+                                                name="size"
+                                            />
                                             {size.name} ${basePrice + size.price}
                                         </label>
                                     ))}
@@ -104,7 +119,8 @@ const MenuItem = ({ menuItem }) => {
                                                 type="checkbox"
                                                 onChange={ev => handleExtraThingClick(ev, extraThing)}
                                                 checked={selectedExtras.map(e => e._id).includes(extraThing._id)}
-                                                name={extraThing.name} />
+                                                name={extraThing.name}
+                                            />
                                             {extraThing.name} +${extraThing.price}
                                         </label>
                                     ))}
@@ -113,9 +129,10 @@ const MenuItem = ({ menuItem }) => {
                             <FlyingButton
                                 targetTop={'5%'}
                                 targetLeft={'95%'}
-                                src={image}>
+                                src={image}
+                            >
                                 <div className="primary sticky bottom-2"
-                                    onClick={handleAddToCartButtonClick}>
+                                    onClick={handleAddToCartButton}>
                                     Add to cart ${selectedPrice}
                                 </div>
                             </FlyingButton>
@@ -129,8 +146,8 @@ const MenuItem = ({ menuItem }) => {
                 </div>
             )}
             <MenuItemTitle
-                onAddToCart={handleAddToCartButtonClick}
-                {...menuItem}
+                onAddToCart={handleAddToCartButton}
+                item={item}
             />
         </>
     );

@@ -1,9 +1,4 @@
-const AddressInputs = ({
-    userInfo, handleChange, disabled = false
-}) => {
-    const {
-        phone, streetAddress, postalCode, city, country
-    } = userInfo;
+const AddressInputs = ({ userInfo, handleChange, disabled = false }) => {
 
     return (
         <>
@@ -13,7 +8,7 @@ const AddressInputs = ({
                 type="tel"
                 name="phone"
                 placeholder="Phone number"
-                value={phone}
+                value={userInfo?.phone}
                 onChange={handleChange} />
             <label>Street address</label>
             <input
@@ -21,7 +16,7 @@ const AddressInputs = ({
                 type="text"
                 name="streetAddress"
                 placeholder="Street address"
-                value={streetAddress}
+                value={userInfo?.streetAddress}
                 onChange={handleChange}
             />
             <div className="grid grid-cols-2 gap-2">
@@ -32,7 +27,7 @@ const AddressInputs = ({
                         type="text"
                         name="postalCode"
                         placeholder="Postal code"
-                        value={postalCode}
+                        value={userInfo?.postalCode}
                         onChange={handleChange}
                     />
                 </div>
@@ -43,7 +38,7 @@ const AddressInputs = ({
                         type="text"
                         name="city"
                         placeholder="City"
-                        value={city}
+                        value={userInfo?.city}
                         onChange={handleChange}
                     />
                 </div>
@@ -54,7 +49,7 @@ const AddressInputs = ({
                 type="text"
                 name="country"
                 placeholder="Country"
-                value={country}
+                value={userInfo?.country}
                 onChange={handleChange}
             />
         </>

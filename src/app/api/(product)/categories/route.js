@@ -42,9 +42,6 @@ export const GET = async () => {
     try {
         await connectToDB();
 
-        const admin = await isAdmin();
-        if (!admin) throw new Error('Unauthorized access!');
-
         const categories = await Category.find({});
         return NextResponse.json(categories);
     } catch (err) {

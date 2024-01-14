@@ -1,28 +1,17 @@
 'use client';
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
-
 import SectionHeaders from "@/components/layout/SectionHeaders";
-import MenuItem from "@/components/menu/MenuItem";
+import MenuItem from "../menu/MenuItem";
+import LoadingSkeleton from "../LoadingSkeleton";
+import { useMenuItems } from "@/hooks/useMenuItems";
 
 const HomeMenu = () => {
-    const [bestSellers, setBestSellers] = useState([]);
+    const { loading, data: bestSellers } = useMenuItems();
 
-    useEffect(() => {
-        const getMenuItems = async () => {
-            try {
-                const res = await fetch('/api/menu-items');
-                const data = await res.json();
-                if (data?.length > 0) {
-                    setBestSellers(data.slice(-3));
-                }
-            } catch (err) {
-                console.log(err);
-            }
-        }
-        getMenuItems();
-    }, []);
+    if (loading) return <LoadingSkeleton />
+
+    console.log(bestSellers.slice(0, 3))
 
     return (
         <section className="">
@@ -41,8 +30,8 @@ const HomeMenu = () => {
             </div>
             <div className="grid sm:grid-cols-3 gap-4">
                 {
-                    bestSellers?.length > 0 ? (
-                        bestSellers.map(item => (
+                    bestSellers?.length >= 3 ? (
+                        bestSellers.slice(0, 3).map(item => (
                             <MenuItem key={item._id} item={item} />
                         ))
                     ) : null
