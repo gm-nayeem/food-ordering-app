@@ -18,7 +18,6 @@ const NewMenuItemPage = () => {
     const savingPromise = fetch("/api/menu-items", {
       method: "POST",
       body: JSON.stringify(newMenuItem),
-      headers: { "Content-Type": "application/json" },
     }).then(res => {
       if (!res.ok) throw new Error('Something went wrong!');
       router.push("/menu-items");

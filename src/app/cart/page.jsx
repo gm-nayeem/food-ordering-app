@@ -54,7 +54,6 @@ const CartPage = () => {
 
         const promise = fetch('/api/checkout', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 address,
                 cartProducts,

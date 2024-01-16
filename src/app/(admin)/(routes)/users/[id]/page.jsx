@@ -16,7 +16,6 @@ const EditUserPage = ({ params }) => {
         const promise = new Promise(async (resolve, reject) => {
             const res = await fetch(`/api/users/${id}`, {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(userInfo),
             });
 

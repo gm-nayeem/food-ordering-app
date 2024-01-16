@@ -16,7 +16,6 @@ const ProfilePage = () => {
         const promise = new Promise(async (resolve, reject) => {
             const response = await fetch('/api/profile', {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(userInfo),
             });
 

@@ -23,7 +23,6 @@ const EditMenuItemPage = () => {
             const res = await fetch(`/api/menu-items/${id}`, {
                 method: 'PUT',
                 body: JSON.stringify(data),
-                headers: { 'Content-Type': 'application/json' },
             });
 
             if (!res.ok) reject();

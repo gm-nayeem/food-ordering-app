@@ -6,7 +6,7 @@ import { dbTimeForHuman } from "@/helper/datetime";
 import { useOrders } from "@/hooks/useOrders";
 import LoadingSkeleton from "@/components/LoadingSkeleton";
 
-export default function OrdersPage() {
+const OrdersPage = () => {
     const { loading, data: orders } = useOrders();
 
     if (loading) return <LoadingSkeleton />
@@ -58,3 +58,5 @@ export default function OrdersPage() {
         </section>
     );
 }
+
+export default OrdersPage;

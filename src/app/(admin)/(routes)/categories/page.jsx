@@ -35,7 +35,6 @@ const CategoriesPage = () => {
 
         const promise = fetch('/api/categories', {
             method: editedCategory ? 'PUT' : 'POST',
-            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data),
         }).then(res => {
             if (!res.ok) throw new Error('Something went wrong!');
