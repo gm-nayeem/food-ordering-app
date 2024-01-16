@@ -19,7 +19,7 @@ const OrderPage = () => {
 
     useEffect(() => {
         if (search === '1') clearCart();
-    }, [search]);
+    }, [search, clearCart]);
 
     let subtotal = 0;
     if (order?.cartProducts) {

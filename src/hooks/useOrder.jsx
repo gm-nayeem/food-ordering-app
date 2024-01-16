@@ -7,7 +7,7 @@ export const useOrder = (id) => {
     const [loading, setLoading] = useState(true);
 
     const fetchOrder = async () => {
-        const res = await fetch(`/api/orders?id=${id}`);
+        const res = await fetch(`/api/orders?id=${id}`, { cache: 'no-store' });
         const order = await res.json();
 
         if (order) setData(order);
