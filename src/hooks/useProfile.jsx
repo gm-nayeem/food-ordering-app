@@ -11,7 +11,7 @@ export const useProfile = () => {
         const data = await res.json();
 
         if (data) setData(data);
-        setLoading(false);;
+        setLoading(false);
     }
 
     useEffect(() => {
