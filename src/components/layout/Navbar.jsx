@@ -35,7 +35,7 @@ const AuthLinks = ({ status, userName }) => {
     }
 }
 
-const Header = () => {
+const Navbar = () => {
     const session = useSession();
     const status = session?.status;
     const userData = session.data?.user;
@@ -44,7 +44,7 @@ const Header = () => {
     const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
     return (
-        <header>
+        <nav>
             <div className="flex items-center md:hidden justify-between">
                 <Link className="text-primary font-semibold text-2xl" href={'/'}>
                     ST PIZZA
@@ -106,8 +106,8 @@ const Header = () => {
                     </Link>
                 </nav>
             </div>
-        </header>
+        </nav>
     );
 }
 
-export default Header;
+export default Navbar;

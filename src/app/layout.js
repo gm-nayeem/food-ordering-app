@@ -3,7 +3,7 @@ import { Toaster } from "react-hot-toast";
 
 import './globals.css';
 import { AppProvider } from '@/context/AppContext';
-import Header from '@/components/layout/Header';
+import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 
 const roboto = Roboto({ subsets: ['latin'], weight: ['400', '500', '700'] });
@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
         <main className="max-w-4xl min-h-[100dvh] mx-auto p-4 flex flex-col justify-between">
           <AppProvider>
             <Toaster />
-            <Header />
+            <Navbar />
             {children}
             <Footer />
           </AppProvider>
