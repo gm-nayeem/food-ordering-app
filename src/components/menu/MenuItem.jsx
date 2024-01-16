@@ -3,11 +3,11 @@
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { useContext, useState } from "react";
-import FlyingButton from "react-flying-item";
 import toast from "react-hot-toast";
 
 import { CartContext } from "@/context/AppContext";
 import MenuItemTitle from "@/components/menu/MenuItemTitle";
+import AddToCartButton from "./AddToCartButton";
 
 const MenuItem = ({ item }) => {
     const {
@@ -37,8 +37,9 @@ const MenuItem = ({ item }) => {
         }
 
         addToCart(item, selectedSize, selectedExtras);
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        toast.success('Item added to the cart');
 
+        await new Promise(resolve => setTimeout(resolve, 1000));
         setShowPopup(false);
     }
 
@@ -126,16 +127,11 @@ const MenuItem = ({ item }) => {
                                     ))}
                                 </div>
                             )}
-                            <FlyingButton
-                                targetTop={'5%'}
-                                targetLeft={'95%'}
-                                src={image}
-                            >
-                                <div className="primary sticky bottom-2"
-                                    onClick={handleAddToCartButton}>
-                                    Add to cart ${selectedPrice}
-                                </div>
-                            </FlyingButton>
+                            <AddToCartButton
+                                onClick={handleAddToCartButton}
+                                hasSizesOrExtras={extraIngredientPrices}
+                                basePrice={selectedPrice}
+                            />
                             <button
                                 className="mt-2"
                                 onClick={() => setShowPopup(false)}>

@@ -11,8 +11,6 @@ const HomeMenu = () => {
 
     if (loading) return <LoadingSkeleton />
 
-    console.log(bestSellers.slice(0, 3))
-
     return (
         <section className="">
             <div className="absolute left-0 right-0 w-full justify-start">

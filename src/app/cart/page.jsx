@@ -9,8 +9,10 @@ import SectionHeaders from "@/components/layout/SectionHeaders";
 import CartProduct from "@/components/menu/CartProduct";
 import LoadingSkeleton from "@/components/LoadingSkeleton";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const CartPage = () => {
+    const router = useRouter();
     const session = useSession();
     const status = session?.status;
 
@@ -50,29 +52,23 @@ const CartPage = () => {
     const proceedToCheckout = async (e) => {
         e.preventDefault();
 
-        toast.success('Payment successful');
+        const promise = fetch('/api/checkout', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                address,
+                cartProducts,
+            }),
+        }).then(res => {
+            if (!res.ok) throw new Error('something error occurred!');
+            return res.json().then(data => router.push(data.url));
+        });
 
-        // const promise = new Promise((resolve, reject) => {
-        //     fetch('/api/checkout', {
-        //         method: 'POST',
-        //         headers: { 'Content-Type': 'application/json' },
-        //         body: JSON.stringify({
-        //             address,
-        //             cartProducts,
-        //         }),
-        //     }).then(async (response) => {
-        //         if (!response.ok) reject();
-
-        //         resolve();
-        //         window.location = await response.json();
-        //     });
-        // });
-
-        // await toast.promise(promise, {
-        //     loading: 'Preparing your order...',
-        //     success: 'Redirecting to payment...',
-        //     error: 'Something went wrong... Please try again later',
-        // });
+        await toast.promise(promise, {
+            loading: 'Preparing your order...',
+            success: 'Order added successfully!',
+            error: 'Something went wrong... Please try again later',
+        });
     }
 
     if (cartProducts?.length === 0) {

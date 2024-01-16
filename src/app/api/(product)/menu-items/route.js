@@ -23,7 +23,7 @@ export const GET = async () => {
     try {
         await connectToDB();
 
-        const menuItems = await MenuItem.find();
+        const menuItems = await MenuItem.find({});
         return NextResponse.json(menuItems);
     } catch (err) {
         throw new Error(err);

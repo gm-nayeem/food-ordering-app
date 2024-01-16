@@ -13,10 +13,10 @@ export const GET = async (req) => {
         const admin = await isAdmin();
 
         const url = new URL(req.url);
-        const _id = url.searchParams.get('_id');
+        const id = url.searchParams.get('id');
 
-        if (_id) {
-            const orderedItem = await Order.findById(_id);
+        if (id) {
+            const orderedItem = await Order.findById(id);
             return NextResponse.json(orderedItem);
         }
 
