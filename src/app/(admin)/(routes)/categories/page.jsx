@@ -2,9 +2,9 @@
 
 import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
-import UserTabs from "@/components/UserTabs";
 import CategoriesComponents from "../../_components/CategoriesComponents";
 import CategoryForm from "../../_components/CategoryForm";
+import UserTabs from '@/components/UserTabs';
 import LoadingSkeleton from "@/components/LoadingSkeleton";
 
 const CategoriesPage = () => {
