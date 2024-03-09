@@ -1,8 +1,22 @@
 import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
-import { isAdmin } from "../../(auth)/auth/[...nextauth]/route";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../../(auth)/auth/[...nextauth]/route";
 import { Category } from "@/models";
 import { connectToDB } from "@/config/databaseConnect";
+
+export const isAdmin = async () => {
+    try {
+        const session = await getServerSession(authOptions);
+
+        const admin = session?.user?.isAdmin;
+        if (!admin) return false;
+
+        return admin;
+    } catch (err) {
+        throw new Error(err);
+    }
+}
 
 export const POST = async (req) => {
     try {

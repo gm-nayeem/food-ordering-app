@@ -1,7 +1,21 @@
 import { NextResponse } from "next/server";
-import { isAdmin } from "@/app/api/(auth)/auth/[...nextauth]/route";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/(auth)/auth/[...nextauth]/route";
 import { MenuItem } from "@/models";
 import { connectToDB } from "@/config/databaseConnect";
+
+export const isAdmin = async () => {
+    try {
+        const session = await getServerSession(authOptions);
+
+        const admin = session?.user?.isAdmin;
+        if (!admin) return false;
+
+        return admin;
+    } catch (err) {
+        throw new Error(err);
+    }
+}
 
 export const PUT = async (req, { params }) => {
     const { id } = params;

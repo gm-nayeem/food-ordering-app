@@ -6,7 +6,7 @@
   ],
   "rules": {
     "react/prop-types": "off",
-    "no-unused-vars": "warn",
+    "no-unused-vars": "off",
     "no-undef": "off",
     "no-async-promise-executor": "off",
     "no-unsafe-optional-chaining": "off",

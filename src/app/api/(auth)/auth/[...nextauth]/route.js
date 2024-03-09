@@ -1,4 +1,4 @@
-import NextAuth, { getServerSession } from "next-auth";
+import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -29,7 +29,7 @@ const login = async (credentials) => {
 
         return user;
     } catch (err) {
-        console.error(err);
+        console.error('auth error', err);
         throw new Error("Failed to login!");
     }
 };
@@ -73,7 +73,7 @@ export const authOptions = {
 
                 const { name, email } = profile;
                 const userExists = await User.findOne({ email });
-                console.log('profile', profile);
+                // console.log('profile', profile);
 
                 if (!userExists) {
                     const newUser = { username: name, email };
@@ -120,19 +120,6 @@ export const authOptions = {
         signOut: '/',
         error: "/login",
     },
-}
-
-export const isAdmin = async () => {
-    try {
-        const session = await getServerSession(authOptions);
-
-        const admin = session?.user?.isAdmin;
-        if (!admin) return false;
-
-        return admin;
-    } catch (err) {
-        throw new Error(err);
-    }
 }
 
 const handler = NextAuth(authOptions);
