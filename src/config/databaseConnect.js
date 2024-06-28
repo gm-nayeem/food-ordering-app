@@ -1,34 +1,30 @@
 import mongoose from 'mongoose';
 
-const URI = process.env.MONGODB_URI;
-if (!URL) {
-    throw new Error('Invalid/Missing environment variable: "MONGODB_URI"')
-}
+const MONGODB_URL = process.env.MONGODB_URI;
 
 const options = {
     dbName: "food-ordering-app",
-    // useNewUrlParser: true,
-    // useUnifiedTopology: true,
+    bufferCommands: false,
 }
 
-let isConnected = false; // track the connection
+let cached = (global).mongoose;
+
+if (!cached) {
+    cached = (global).mongoose = {
+        conn: null, promise: null
+    }
+}
 
 export const connectToDB = async () => {
-    mongoose.set('strictQuery', true);
+    if (cached.conn) return cached.conn;
 
-    if (isConnected) {
-        console.log('MongoDB is already connected');
-        return;
-    }
+    if (!MONGODB_URL) throw new Error('Missing MONGODB_URL');
 
-    try {
-        await mongoose.connect(URI, options);
+    cached.promise =
+        cached.promise ||
+        mongoose.connect(MONGODB_URL, options)
 
-        isConnected = true;
+    cached.conn = await cached.promise;
 
-        console.log('MongoDB connected successfully');
-    } catch (error) {
-        console.error(error);
-        throw new Error(error.message);
-    }
+    return cached.conn;
 }

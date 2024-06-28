@@ -1,21 +1,8 @@
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../../(auth)/auth/[...nextauth]/route";
+
 import { MenuItem } from "@/models";
+import { getAdmin } from '@/actions/auth';
 import { connectToDB } from "@/config/databaseConnect";
-
-export const isAdmin = async () => {
-    try {
-        const session = await getServerSession(authOptions);
-
-        const admin = session?.user?.isAdmin;
-        if (!admin) return false;
-
-        return admin;
-    } catch (err) {
-        throw new Error(err);
-    }
-}
 
 export const POST = async (req) => {
     try {
@@ -23,7 +10,7 @@ export const POST = async (req) => {
 
         const data = await req.json();
 
-        const admin = await isAdmin();
+        const admin = await getAdmin();
         if (!admin) throw new Error('Unauthorized access!');
 
         const newMenuItem = await MenuItem.create(data);

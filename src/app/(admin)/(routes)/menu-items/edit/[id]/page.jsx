@@ -1,15 +1,15 @@
 'use client'
 
 import Link from "next/link";
-import { useRouter, useParams } from "next/navigation";
 import toast from "react-hot-toast";
+import { useRouter, useParams } from "next/navigation";
 
-import DeleteButton from "@/components/DeleteButton";
 import Left from "@/components/icons/Left";
-import MenuItemForm from "@/app/(admin)/_components/MenuItemForm";
 import UserTabs from "@/components/UserTabs";
+import DeleteButton from "@/components/DeleteButton";
 import LoadingSkeleton from "@/components/LoadingSkeleton";
 import { useSingleMenuItem } from "@/hooks/useSingleMenuItem";
+import MenuItemForm from "@/app/(admin)/_components/MenuItemForm";
 
 const EditMenuItemPage = () => {
     const router = useRouter();
@@ -69,7 +69,7 @@ const EditMenuItemPage = () => {
                 </Link>
             </div>
             <MenuItemForm menuItem={menuItem} onSubmit={handleFormSubmit} />
-            <div className="max-w-md mx-auto mt-2">
+            <div className="max-w-md mx-auto mt-2 flex justify-center">
                 <div className="max-w-xs ml-auto pl-4">
                     <DeleteButton
                         label="Delete this menu item"

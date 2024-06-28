@@ -27,3 +27,18 @@
 
 //     return NextResponse.json('ok', { status: 200 });
 // }
+
+
+import { NextResponse } from "next/server";
+
+export const GET = async () => {
+    try {
+        const demoData = {
+            success: true,
+            message: 'Demo Data'
+        }
+        return NextResponse.json(demoData);
+    } catch (err) {
+        throw new Error(err);
+    }
+}

@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../../(auth)/auth/[...nextauth]/route";
-import { connectToDB } from "@/config/databaseConnect";
+
 import { User, UserInfo } from "@/models";
+import { currentUser } from '@/actions/auth';
+import { connectToDB } from "@/config/databaseConnect";
 
 export const PUT = async (req) => {
     try {
@@ -12,9 +12,9 @@ export const PUT = async (req) => {
         const { username, image, ...otherUserInfo } = data;
 
         const options = { password: 0 };
-        const session = await getServerSession(authOptions);
+        const cUser = await currentUser();
 
-        const email = session?.user?.email;
+        const email = cUser?.email;
         if (!email) return NextResponse.json({});
 
         const user = await User.findOne({ email }, options);
@@ -43,9 +43,10 @@ export const GET = async (req) => {
         await connectToDB();
 
         const options = { password: 0 };
-        const session = await getServerSession(authOptions);
+        // const session = await getServerSession(authOptions);
+        const cUser = await currentUser();
 
-        const email = session?.user?.email;
+        const email = cUser?.email;
         if (!email) return NextResponse.json({});
 
         const user = await User.findOne({ email }, options).lean();

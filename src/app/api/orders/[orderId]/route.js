@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
-import { connectToDB } from "@/config/databaseConnect";
+
 import { Order } from '@/models';
+import { connectToDB } from "@/config/databaseConnect";
 
 export const GET = async (req, { params }) => {
     const orderId = params?.orderId;

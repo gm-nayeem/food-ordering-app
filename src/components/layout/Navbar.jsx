@@ -4,8 +4,8 @@ import Link from "next/link";
 import { useContext, useState } from "react";
 import { signOut, useSession } from "next-auth/react";
 
-import { Bars2, ShoppingCart } from "@/components/icons";
 import { CartContext } from "@/context/AppContext";
+import { Bars2, ShoppingCart } from "@/components/icons";
 
 const AuthLinks = ({ status, userName }) => {
     if (status === 'authenticated') {

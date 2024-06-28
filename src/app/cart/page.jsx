@@ -1,15 +1,15 @@
 'use client';
 
-import { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { useContext, useEffect, useState } from "react";
 
-import { CartContext, cartProductPrice } from "@/context/AppContext";
 import AddressInputs from "@/components/AddressInputs";
-import SectionHeaders from "@/components/layout/SectionHeaders";
 import CartProduct from "@/components/menu/CartProduct";
 import LoadingSkeleton from "@/components/LoadingSkeleton";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import SectionHeaders from "@/components/layout/SectionHeaders";
+import { CartContext, cartProductPrice } from "@/context/AppContext";
 
 const CartPage = () => {
     const router = useRouter();
@@ -45,8 +45,12 @@ const CartPage = () => {
     for (const p of cartProducts) {
         subtotal += cartProductPrice(p);
     }
+
     const handleAddressChange = (propName, value) => {
-        setAddress(prevAddress => ({ ...prevAddress, [propName]: value }));
+        setAddress(prevAddress => ({
+            ...prevAddress,
+            [propName]: value
+        }));
     }
 
     const proceedToCheckout = async (e) => {

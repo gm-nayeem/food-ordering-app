@@ -1,21 +1,8 @@
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/(auth)/auth/[...nextauth]/route";
-import { connectToDB } from "@/config/databaseConnect";
+
 import { User, UserInfo } from "@/models";
-
-export const isAdmin = async () => {
-    try {
-        const session = await getServerSession(authOptions);
-
-        const admin = session?.user?.isAdmin;
-        if (!admin) return false;
-
-        return admin;
-    } catch (err) {
-        throw new Error(err);
-    }
-}
+import { getAdmin } from '@/actions/auth';
+import { connectToDB } from "@/config/databaseConnect";
 
 export const GET = async (req, { params }) => {
     const userId = params?.id;
@@ -27,7 +14,7 @@ export const GET = async (req, { params }) => {
     try {
         await connectToDB();
 
-        const admin = await isAdmin();
+        const admin = await getAdmin();
         if (!admin) throw new Error("Unauthorized access!");
 
         const options = { password: 0 };
@@ -48,7 +35,7 @@ export const PUT = async (req, { params }) => {
     try {
         await connectToDB();
 
-        const admin = await isAdmin();
+        const admin = await getAdmin();
         if (!admin) throw new Error("Unauthorized access!");
 
         const data = await req.json();
@@ -83,7 +70,7 @@ export const DELETE = async (req, { params }) => {
     try {
         await connectToDB();
 
-        const admin = await isAdmin();
+        const admin = await getAdmin();
         if (!admin) throw new Error("Unauthorized access!");
 
         const options = { password: 0 };
