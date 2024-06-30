@@ -1,3 +1,5 @@
 export const dbTimeForHuman = (str) => {
-    return str.replace('T', ' ').substring(0, 16);
+    if (str.length) {
+        return str.replace('T', ' ').substring(0, 16);
+    }
 }

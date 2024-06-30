@@ -1,28 +1,14 @@
 import { NextResponse } from "next/server";
 
-import { Order } from '@/models';
+import { Order } from "@/models";
 import { connectToDB } from "@/config/databaseConnect";
-import { currentUser, getAdmin } from '@/actions/auth';
 
-export const GET = async () => {
+export const GET = async (req) => {
     try {
         await connectToDB();
 
-        const admin = await getAdmin();
-        const cUser = await currentUser();
-
-        if (admin) {
-            const orders = await Order.find({});
-            return NextResponse.json(orders);
-        }
-
-        const userEmail = cUser?.email;
-        if (!userEmail) {
-            throw new Error("Unauthorized access!");
-        }
-
-        const orderedItem = await Order.find({ userEmail });
-        return NextResponse.json(orderedItem);
+        const orders = await Order.find({});
+        return NextResponse.json(orders);
     } catch (err) {
         throw new Error(err);
     }
