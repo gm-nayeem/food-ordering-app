@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 
 import { Order } from "@/models";
 import { currentUser } from '@/actions/auth';
@@ -36,6 +37,7 @@ export const POST = async (req) => {
 
         const url = `/orders/${createdOrder._id.toString()}?clear-cart=1`;
 
+        revalidatePath('/orders');
         return NextResponse.json({ url });
     } catch (err) {
         throw new Error(err);
