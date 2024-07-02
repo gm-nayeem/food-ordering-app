@@ -2,9 +2,9 @@ import { Roboto } from 'next/font/google';
 import { Toaster } from "react-hot-toast";
 
 import './globals.css';
-import { AppProvider } from '@/context/AppContext';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+import { AppProvider } from '@/context/AppContext';
 
 const roboto = Roboto({ subsets: ['latin'], weight: ['400', '500', '700'] });
 
