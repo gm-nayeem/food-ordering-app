@@ -1,14 +1,14 @@
 'use client';
 
-import { useParams, useSearchParams } from "next/navigation";
 import { useContext, useEffect } from "react";
+import { useParams, useSearchParams } from "next/navigation";
 
-import { CartContext, cartProductPrice } from "@/context/AppContext";
-import AddressInputs from "@/components/AddressInputs";
-import SectionHeaders from "@/components/layout/SectionHeaders";
-import CartProduct from "@/components/menu/CartProduct";
 import { useOrderById } from "@/hooks/useOrderById";
+import AddressInputs from "@/components/AddressInputs";
+import CartProduct from "@/components/menu/CartProduct";
 import LoadingSkeleton from "@/components/LoadingSkeleton";
+import SectionHeaders from "@/components/layout/SectionHeaders";
+import { CartContext, cartProductPrice } from "@/context/AppContext";
 
 const OrderPage = () => {
     const { id } = useParams();
@@ -19,8 +19,10 @@ const OrderPage = () => {
     const { clearCart } = useContext(CartContext);
 
     useEffect(() => {
-        if (search === '1') clearCart();
-    }, [search, clearCart]);
+        if (search === '1') {
+            clearCart();
+        }
+    }, [search]);
 
     let subtotal = 0;
     if (order?.cartProducts) {
