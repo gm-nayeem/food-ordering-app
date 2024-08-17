@@ -51,7 +51,7 @@ const EditableImage = ({ link, setLink }) => {
             }
             <label>
                 <input type="file" className="hidden" onChange={handleFileChange} />
-                <span className="block border border-gray-300 rounded-lg mt-2 p-2 text-center cursor-pointer">Item Image</span>
+                <span className="block border border-gray-300 rounded-lg mt-2 p-2 text-center cursor-pointer">Image</span>
             </label>
         </>
     );

@@ -14,7 +14,7 @@ export const useOrders = () => {
             try {
                 // setLoading(true);
 
-                const res = await fetch(`/api/orders`, { next: { revalidate: 5 } });
+                const res = await fetch(`/api/orders`, { cache: "no-store" });
                 const orders = await res.json();
 
                 if (orders?.length > 0) {
